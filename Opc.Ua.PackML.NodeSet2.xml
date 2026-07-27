@@ -1466,8 +1466,8 @@
       <Reference ReferenceType="FromState" IsForward="false">ns=1;i=50</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=1;i=38" BrowseName="1:Complete">
-    <DisplayName>Complete</DisplayName>
+  <UAObject NodeId="ns=1;i=38" BrowseName="1:Completed">
+    <DisplayName>Completed</DisplayName>
     <Description>The machine has finished the COMPLETING state and is now waiting for a Reset command before transitioning to the RESETTING state</Description>
     <References>
       <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=1</Reference>
@@ -1592,8 +1592,8 @@
       <Reference ReferenceType="HasTypeDefinition">i=2310</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=1;i=50" BrowseName="1:CompletingToComplete">
-    <DisplayName>CompletingToComplete</DisplayName>
+  <UAObject NodeId="ns=1;i=50" BrowseName="1:CompletingToCompleted">
+    <DisplayName>CompletingToCompleted</DisplayName>
     <References>
       <Reference ReferenceType="ToState">ns=1;i=38</Reference>
       <Reference ReferenceType="FromState">ns=1;i=37</Reference>
@@ -1602,8 +1602,8 @@
       <Reference ReferenceType="HasTypeDefinition">i=2310</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=1;i=51" BrowseName="1:CompleteToResetting">
-    <DisplayName>CompleteToResetting</DisplayName>
+  <UAObject NodeId="ns=1;i=51" BrowseName="1:CompletedToResetting">
+    <DisplayName>CompletedToResetting</DisplayName>
     <References>
       <Reference ReferenceType="FromState">ns=1;i=38</Reference>
       <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=1</Reference>
@@ -2905,8 +2905,8 @@
       <Reference ReferenceType="HasModellingRule">i=80</Reference>
     </References>
   </UAMethod>
-  <UAMethod NodeId="ns=1;i=365" BrowseName="1:ToComplete">
-    <DisplayName>ToComplete</DisplayName>
+  <UAMethod NodeId="ns=1;i=365" BrowseName="1:Complete">
+    <DisplayName>Complete</DisplayName>
     <Documentation>https://reference.opcfoundation.org/v104/PackML/v101/docs/6.7.9</Documentation>
     <References>
       <Reference ReferenceType="HasModellingRule">i=80</Reference>
