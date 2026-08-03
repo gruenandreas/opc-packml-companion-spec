@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  AUTOMATISCH GENERIERTER ENTWURF (Proof of Concept)
+  Quelle: Ruecktransformation aus Opc.Ua.PackML.NodeSet2.xml
+  ACHTUNG: Dies ist ein Startpunkt fuer die manuelle Nacharbeit, KEIN
+  validierter, vollstaendiger ModelDesign-Ersatz. Bitte gegen
+  "UA Model Design.xsd" pruefen und mit Opc.Ua.ModelCompiler validieren
+  (compile -d2 ... -c PackML.Model.csv), bevor produktiv genutzt.
+-->
+<opc:ModelDesign
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:opc="http://opcfoundation.org/UA/ModelDesign.xsd"
+  xmlns:ua="http://opcfoundation.org/UA/"
+  xmlns="http://opcfoundation.org/UA/PackML/"
+  TargetNamespace="http://opcfoundation.org/UA/PackML/"
+  TargetNamespaceVersion="1.01">
+
+  <opc:Namespaces>
+    <opc:Namespace Name="OpcUa" Prefix="Opc.Ua">http://opcfoundation.org/UA/</opc:Namespace>
+    <opc:Namespace Name="PackML" Prefix="PackML">http://opcfoundation.org/UA/PackML/</opc:Namespace>
+  </opc:Namespaces>
+
+  <opc:ReferenceType SymbolicName="HasAlarm" BaseType="ua:HasComponent">
+    <opc:Description>HasAlarm (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.6.2)</opc:Description>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasAlarmHistory" BaseType="ua:HasComponent">
+    <opc:Description>HasAlarmHistory (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.6.3)</opc:Description>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasInterlock" BaseType="ua:HasComponent">
+    <opc:Description>HasInterlock (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.6.1)</opc:Description>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasStopReason" BaseType="ua:HasComponent">
+    <opc:Description>HasStopReason (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.6.5)</opc:Description>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasWarning" BaseType="ua:HasComponent">
+    <opc:Description>HasWarning (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.6.4)</opc:Description>
+  </opc:ReferenceType>
+
+  <opc:DataType SymbolicName="ProductionMaintenanceModeEnum" BaseType="ua:Enumeration">
+    <opc:Description>ProductionMaintenanceModeEnum (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.2)</opc:Description>
+    <opc:Fields>
+      <opc:Field Name="Invalid" Value="0">
+        <opc:Description>This is an invalid mode</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Produce" Value="1">
+        <opc:Description>Machine is in production mode</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Maintenance" Value="2">
+        <opc:Description>Machine is in maintenance mode</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Manual" Value="3">
+        <opc:Description>Machine is in manual mode</opc:Description>
+      </opc:Field>
+    </opc:Fields>
+    <opc:Children>
+      <opc:Property SymbolicName="EnumValues" ModellingRule="Mandatory" DataType="ua:EnumValueType" ValueRank="Array" ArrayDimensions="4">
+      </opc:Property>
+    </opc:Children>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PackMLAlarmDataType" BaseType="ua:Structure">
+    <opc:Description>PackMLAlarmDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.8.2/#6.8.2.2)</opc:Description>
+    <opc:Fields>
+      <opc:Field Name="ID">
+        <opc:Description>A unique number assigned to each type of alarm, stop or warning.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Value">
+        <opc:Description>An alarm, stop or warning message number associated to the ID to allow for user specific detail or to break down the Alarm.ID to greater detail</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Message">
+        <opc:Description>The actual text of the alarm, stop or warning for those machines capable of providing string information</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Category">
+        <opc:Description>A user defined value which indicates what type of alarm, stop or warning has occurred. E.g. electrical, mechanical, process limit, …</opc:Description>
+      </opc:Field>
+      <opc:Field Name="DateTime">
+        <opc:Description>The date and time that the alarm, stop or warning occurred, in ISO 8601 format (year, month, day, hour, minute, second, msec), as an array of 32 bit integers. Any unused date time elements should be set to zero</opc:Description>
+      </opc:Field>
+      <opc:Field Name="AckDateTime">
+        <opc:Description>The date and time that the alarm, stop or warning has been acknowledged, in ISO 8601 format (year, month, day, hour, minute, second, msec), as an array of 32 bit integers. Any unused date time elements should be set to zero</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Trigger">
+        <opc:Description>This variable is true when the alarm is active</opc:Description>
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PackMLCountDataType" BaseType="ua:Structure">
+    <opc:Description>PackMLCountDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.3)</opc:Description>
+    <opc:Fields>
+      <opc:Field Name="ID">
+        <opc:Description>A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Name">
+        <opc:Description>A string description of the material.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Unit">
+        <opc:Description>OPC UA engineering unit information for the count.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Count">
+        <opc:Description>The amount of consumed (processed or defective) material on the current production job.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="AccCount">
+        <opc:Description>The cumulative count value of the material produced (or consumed). This counter gives the user a non-resetting counter that may be used for OEE calculations</opc:Description>
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PackMLDescriptorDataType" BaseType="ua:Structure">
+    <opc:Description>PackMLDescriptorDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.4)</opc:Description>
+    <opc:Fields>
+      <opc:Field Name="ID">
+        <opc:Description>A unique number assigned to the parameter</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Name">
+        <opc:Description>The name of the parameter</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Unit">
+        <opc:Description>OPC UA engineering unit information</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Value">
+        <opc:Description>This is the numeric value of the parameter</opc:Description>
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PackMLIngredientsDataType" BaseType="ua:Structure">
+    <opc:Description>PackMLIngredientsDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.5)</opc:Description>
+    <opc:Fields>
+      <opc:Field Name="IngredientID">
+        <opc:Description>A unique number assigned to the ingredient.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Parameter">
+        <opc:Description>The array of Parameters that correspond to the ingredient</opc:Description>
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PackMLProductDataType" BaseType="ua:Structure">
+    <opc:Description>PackMLProductDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.6)</opc:Description>
+    <opc:Fields>
+      <opc:Field Name="ProductID">
+        <opc:Description>A unique number assigned to the product.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="ProcessVariables">
+        <opc:Description>The array of Process variables associated with this product</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Ingredients">
+        <opc:Description>The array of ingredients associated with this product.</opc:Description>
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PackMLRemoteInterfaceDataType" BaseType="ua:Structure">
+    <opc:Description>PackMLRemoteInterfaceDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.7)</opc:Description>
+    <opc:Fields>
+      <opc:Field Name="Number">
+        <opc:Description>This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="ControlCmdNumber">
+        <opc:Description>A user defined command number associated with coded value from a remote unit. This number is a coded value sent from one node on the network to another.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="CmdValue">
+        <opc:Description>This is the command value associated with the ControlCmdNumber above.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Parameter">
+        <opc:Description>The parameter tags associated to commanded remote interface are typically used for command parameters that are given to the unit machine from remote machines.</opc:Description>
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:ObjectType SymbolicName="PackMLAdminObjectType" BaseType="ua:BaseObjectType">
+    <opc:Description>PackMLAdminObjectType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.3.4)</opc:Description>
+    <opc:Children>
+      <opc:Variable SymbolicName="AccTimeSinceReset" ModellingRule="Optional" DataType="ua:Int32">
+      </opc:Variable>
+      <opc:Variable SymbolicName="Alarm" ReferenceType="HasAlarm" ModellingRule="Optional" DataType="PackMLAlarmDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="AlarmExtent" ModellingRule="Optional" DataType="ua:Int32">
+      </opc:Variable>
+      <opc:Variable SymbolicName="AlarmHistory" ReferenceType="HasAlarmHistory" ModellingRule="Optional" DataType="PackMLAlarmDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="AlarmHistoryExtent" ModellingRule="Optional" DataType="ua:Int32">
+      </opc:Variable>
+      <opc:Variable SymbolicName="MachDesignSpeed" ModellingRule="Optional" DataType="ua:Float">
+      </opc:Variable>
+      <opc:Variable SymbolicName="ModeCumulativeTime" ModellingRule="Optional" DataType="ua:Int32" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="ModeCurrentTime" ModellingRule="Optional" DataType="ua:Int32" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="Parameter" ModellingRule="Optional" DataType="PackMLDescriptorDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="ProdConsumedCount" ModellingRule="Optional" DataType="PackMLCountDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="ProdDefectiveCount" ModellingRule="Optional" DataType="PackMLCountDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="ProdProcessedCount" ModellingRule="Optional" DataType="PackMLCountDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="StateCumulativeTime" ModellingRule="Optional" DataType="ua:Int32" ValueRank="Array" ArrayDimensions="0,0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="StateCurrentTime" ModellingRule="Optional" DataType="ua:Int32" ValueRank="Array" ArrayDimensions="0,0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="StopReason" ReferenceType="HasStopReason" ModellingRule="Optional" DataType="PackMLAlarmDataType">
+      </opc:Variable>
+      <opc:Variable SymbolicName="StopReasonExtent" ModellingRule="Optional" DataType="ua:Int32">
+      </opc:Variable>
+      <opc:Variable SymbolicName="Warning" ReferenceType="HasWarning" ModellingRule="Optional" DataType="PackMLAlarmDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="WarningExtent" ModellingRule="Optional" DataType="ua:Int32">
+      </opc:Variable>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="PackMLBaseObjectType" BaseType="ua:BaseObjectType">
+    <opc:Description>PackMLBaseObjectType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.3.2)</opc:Description>
+    <opc:Children>
+      <opc:Object SymbolicName="Admin" ModellingRule="Mandatory" TypeDefinition="PackMLAdminObjectType">
+      </opc:Object>
+      <opc:Object SymbolicName="BaseStateMachine" ModellingRule="Mandatory" TypeDefinition="PackMLBaseStateMachineType">
+        <opc:Children>
+          <opc:Variable SymbolicName="AvailableStates" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+          </opc:Variable>
+          <opc:Variable SymbolicName="AvailableTransitions" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+          </opc:Variable>
+          <opc:Variable SymbolicName="CurrentState" ModellingRule="Mandatory" TypeDefinition="ua:FiniteStateVariableType" DataType="ua:LocalizedText">
+            <opc:Children>
+              <opc:Property SymbolicName="Id" ModellingRule="Mandatory" DataType="ua:NodeId">
+              </opc:Property>
+            </opc:Children>
+          </opc:Variable>
+          <opc:Object SymbolicName="MachineState" ModellingRule="Mandatory" TypeDefinition="PackMLMachineStateMachineType">
+            <opc:Children>
+              <opc:Variable SymbolicName="AvailableStates" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+              </opc:Variable>
+              <opc:Variable SymbolicName="AvailableTransitions" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+              </opc:Variable>
+              <opc:Variable SymbolicName="CurrentState" ModellingRule="Mandatory" TypeDefinition="ua:FiniteStateVariableType" DataType="ua:LocalizedText">
+                <opc:Children>
+                  <opc:Property SymbolicName="Id" ModellingRule="Mandatory" DataType="ua:NodeId">
+                  </opc:Property>
+                </opc:Children>
+              </opc:Variable>
+              <opc:Object SymbolicName="ExecuteState" ModellingRule="Mandatory" TypeDefinition="PackMLExecuteStateMachineType">
+                <opc:Children>
+                  <opc:Variable SymbolicName="AvailableStates" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+                  </opc:Variable>
+                  <opc:Variable SymbolicName="AvailableTransitions" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+                  </opc:Variable>
+                  <opc:Variable SymbolicName="CurrentState" ModellingRule="Mandatory" TypeDefinition="ua:FiniteStateVariableType" DataType="ua:LocalizedText">
+                    <opc:Children>
+                      <opc:Property SymbolicName="Id" ModellingRule="Mandatory" DataType="ua:NodeId">
+                      </opc:Property>
+                    </opc:Children>
+                  </opc:Variable>
+                </opc:Children>
+              </opc:Object>
+            </opc:Children>
+          </opc:Object>
+        </opc:Children>
+      </opc:Object>
+      <opc:Property SymbolicName="PackMLVersion" ModellingRule="Optional" DataType="ua:String">
+      </opc:Property>
+      <opc:Method SymbolicName="RemoteCommand" ModellingRule="Optional">
+        <opc:Children>
+          <opc:InputArguments>
+            <opc:Argument Name="RemoteInterface" DataType="PackMLRemoteInterfaceDataType" ValueRank="Array" ArrayDimensions="0">
+              <opc:Description>This structure is an array of remote interface information which include Number, ControlCmdNumber, CmdValue and Parameter.</opc:Description>
+            </opc:Argument>
+          </opc:InputArguments>
+        </opc:Children>
+      </opc:Method>
+      <opc:Method SymbolicName="SetInterlock" ModellingRule="Optional">
+        <opc:Children>
+          <opc:InputArguments>
+            <opc:Argument Name="InterlockId" DataType="ua:Int32">
+              <opc:Description>The NodeId of the interlock to set or reset.</opc:Description>
+            </opc:Argument>
+            <opc:Argument Name="State" DataType="ua:Boolean">
+              <opc:Description>The state that the targeted interlock should be set to.  True is set to interlocked, false is not interlocked.</opc:Description>
+            </opc:Argument>
+          </opc:InputArguments>
+        </opc:Children>
+      </opc:Method>
+      <opc:Method SymbolicName="SetMachSpeed" ModellingRule="Mandatory">
+        <opc:Children>
+          <opc:InputArguments>
+            <opc:Argument Name="RequestedMachineSpeed" DataType="ua:Float">
+              <opc:Description>The target machine speed</opc:Description>
+            </opc:Argument>
+          </opc:InputArguments>
+        </opc:Children>
+      </opc:Method>
+      <opc:Method SymbolicName="SetParameter" ModellingRule="Mandatory">
+        <opc:Children>
+          <opc:InputArguments>
+            <opc:Argument Name="Parameter" DataType="PackMLDescriptorDataType" ValueRank="Array" ArrayDimensions="0">
+              <opc:Description>The array of parameter that can be used by the method</opc:Description>
+            </opc:Argument>
+          </opc:InputArguments>
+        </opc:Children>
+      </opc:Method>
+      <opc:Method SymbolicName="SetProduct" ModellingRule="Mandatory">
+        <opc:Children>
+          <opc:InputArguments>
+            <opc:Argument Name="Product" DataType="PackMLProductDataType" ValueRank="Array" ArrayDimensions="0">
+              <opc:Description>This structure is an array of product definition, which includes the ProductId, ProcessVariables array and Ingredient array.</opc:Description>
+            </opc:Argument>
+          </opc:InputArguments>
+        </opc:Children>
+      </opc:Method>
+      <opc:Method SymbolicName="SetUnitMode" ModellingRule="Mandatory">
+        <opc:Children>
+          <opc:InputArguments>
+            <opc:Argument Name="RequestedMode" DataType="ua:Int32">
+              <opc:Description>The requested mode from the list of available modes in the enumeration from ModeSelection </opc:Description>
+            </opc:Argument>
+          </opc:InputArguments>
+        </opc:Children>
+      </opc:Method>
+      <opc:Object SymbolicName="Status" ModellingRule="Mandatory" TypeDefinition="PackMLStatusObjectType">
+        <opc:Children>
+          <opc:Variable SymbolicName="CurMachSpeed" ModellingRule="Mandatory" TypeDefinition="ua:TransitionVariableType" DataType="ua:Float">
+            <opc:Children>
+              <opc:Property SymbolicName="EURange" ModellingRule="Mandatory" DataType="ua:Range">
+              </opc:Property>
+            </opc:Children>
+          </opc:Variable>
+          <opc:Variable SymbolicName="EquipmentBlocked" ModellingRule="Mandatory" DataType="ua:Boolean">
+          </opc:Variable>
+          <opc:Variable SymbolicName="EquipmentStarved" ModellingRule="Mandatory" DataType="ua:Boolean">
+          </opc:Variable>
+          <opc:Variable SymbolicName="MachSpeed" ModellingRule="Mandatory" TypeDefinition="ua:TransitionVariableType" DataType="ua:Float">
+            <opc:Children>
+              <opc:Property SymbolicName="EURange" ModellingRule="Mandatory" DataType="ua:Range">
+              </opc:Property>
+            </opc:Children>
+          </opc:Variable>
+          <opc:Variable SymbolicName="UnitModeCurrent" ModellingRule="Mandatory" DataType="ua:Enumeration">
+          </opc:Variable>
+          <opc:Property SymbolicName="UnitSupportedModes" ModellingRule="Mandatory" DataType="ua:NodeId">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Property SymbolicName="TagID" ModellingRule="Optional" DataType="ua:String">
+      </opc:Property>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="PackMLStatusObjectType" BaseType="ua:BaseObjectType">
+    <opc:Description>PackMLStatusObjectType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.3.3)</opc:Description>
+    <opc:Children>
+      <opc:Variable SymbolicName="CurMachSpeed" ModellingRule="Mandatory" TypeDefinition="ua:TransitionVariableType" DataType="ua:Float">
+        <opc:Children>
+          <opc:Property SymbolicName="EURange" ModellingRule="Mandatory" DataType="ua:Range">
+          </opc:Property>
+        </opc:Children>
+      </opc:Variable>
+      <opc:Variable SymbolicName="EquipmentBlocked" ModellingRule="Mandatory" DataType="ua:Boolean">
+      </opc:Variable>
+      <opc:Variable SymbolicName="EquipmentStarved" ModellingRule="Mandatory" DataType="ua:Boolean">
+      </opc:Variable>
+      <opc:Variable SymbolicName="MachSpeed" ModellingRule="Mandatory" TypeDefinition="ua:TransitionVariableType" DataType="ua:Float">
+        <opc:Children>
+          <opc:Property SymbolicName="EURange" ModellingRule="Mandatory" DataType="ua:Range">
+          </opc:Property>
+        </opc:Children>
+      </opc:Variable>
+      <opc:Variable SymbolicName="MaterialInterlock" ReferenceType="HasInterlock" ModellingRule="Optional" DataType="ua:Boolean" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="MaterialInterlocked" ModellingRule="Optional" DataType="ua:Boolean">
+      </opc:Variable>
+      <opc:Variable SymbolicName="Parameter" ModellingRule="Optional" DataType="PackMLDescriptorDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="Product" ModellingRule="Optional" DataType="PackMLProductDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="RemoteParameter" ModellingRule="Optional" DataType="PackMLRemoteInterfaceDataType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="StateChangeInProcess" ModellingRule="Optional" DataType="ua:Boolean">
+      </opc:Variable>
+      <opc:Variable SymbolicName="StateRequested" ModellingRule="Optional" DataType="ua:Int32">
+      </opc:Variable>
+      <opc:Variable SymbolicName="UnitModeChangeInProcess" ModellingRule="Optional" DataType="ua:Boolean">
+      </opc:Variable>
+      <opc:Variable SymbolicName="UnitModeCurrent" ModellingRule="Mandatory" DataType="ua:Enumeration">
+      </opc:Variable>
+      <opc:Variable SymbolicName="UnitModeRequested" ModellingRule="Optional" DataType="ua:Boolean">
+      </opc:Variable>
+      <opc:Property SymbolicName="UnitSupportedModes" ModellingRule="Mandatory" DataType="ua:NodeId">
+      </opc:Property>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="PackMLBaseStateMachineType" BaseType="ua:FiniteStateMachineType">
+    <opc:Description>PackMLBaseStateMachineType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.3.6)</opc:Description>
+    <opc:Children>
+      <opc:Method SymbolicName="Abort" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Object SymbolicName="Aborted" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="AbortedToCleared" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="Aborting" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="AbortingToAborted" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Variable SymbolicName="AvailableStates" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="AvailableTransitions" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Method SymbolicName="Clear" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Object SymbolicName="Cleared" ModellingRule="Optional" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="ClearedToAborting" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="MachineState" ModellingRule="Mandatory" TypeDefinition="PackMLMachineStateMachineType">
+        <opc:Children>
+          <opc:Variable SymbolicName="AvailableStates" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+          </opc:Variable>
+          <opc:Variable SymbolicName="AvailableTransitions" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+          </opc:Variable>
+          <opc:Variable SymbolicName="CurrentState" ModellingRule="Mandatory" TypeDefinition="ua:FiniteStateVariableType" DataType="ua:LocalizedText">
+            <opc:Children>
+              <opc:Property SymbolicName="Id" ModellingRule="Mandatory" DataType="ua:NodeId">
+              </opc:Property>
+            </opc:Children>
+          </opc:Variable>
+        </opc:Children>
+      </opc:Object>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="PackMLExecuteStateMachineType" BaseType="ua:FiniteStateMachineType">
+    <opc:Description>PackMLExecuteStateMachineType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.3.8)</opc:Description>
+    <opc:Children>
+      <opc:Variable SymbolicName="AvailableStates" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="AvailableTransitions" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Object SymbolicName="Complete" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="CompleteToResetting" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="Completing" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="CompletingToComplete" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="Execute" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="ExecuteToCompleting" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="ExecuteToHolding" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="ExecuteToSuspending" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="Held" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="HeldToUnholding" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Method SymbolicName="Hold" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Object SymbolicName="Holding" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="HoldingToHeld" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="Idle" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="IdleToStarting" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Method SymbolicName="Reset" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Object SymbolicName="Resetting" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="ResettingToIdle" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Method SymbolicName="Start" ModellingRule="Optional">
+        <opc:Children>
+          <opc:InputArguments>
+            <opc:Argument Name="Parameter" DataType="PackMLDescriptorDataType" ValueRank="Array" ArrayDimensions="0">
+              <opc:Description>The array of parameter that can be used by the method</opc:Description>
+            </opc:Argument>
+          </opc:InputArguments>
+        </opc:Children>
+      </opc:Method>
+      <opc:Object SymbolicName="Starting" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="StartingToExecute" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="StartingToHolding" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Method SymbolicName="Suspend" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Object SymbolicName="Suspended" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="SuspendedToHolding" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="SuspendedToUnsuspending" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="Suspending" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="SuspendingToHolding" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="SuspendingToSuspended" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Method SymbolicName="ToComplete" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Method SymbolicName="Unhold" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Object SymbolicName="Unholding" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="UnholdingToExecute" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="UnholdingToHolding" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Method SymbolicName="Unsuspend" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Object SymbolicName="Unsuspending" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="UnsuspendingToExecute" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="UnsuspendingToHolding" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="PackMLMachineStateMachineType" BaseType="ua:FiniteStateMachineType">
+    <opc:Description>PackMLMachineStateMachineType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.3.7)</opc:Description>
+    <opc:Children>
+      <opc:Variable SymbolicName="AvailableStates" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Variable SymbolicName="AvailableTransitions" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+      </opc:Variable>
+      <opc:Object SymbolicName="Clearing" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="ClearingToStopped" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="ExecuteState" ModellingRule="Mandatory" TypeDefinition="PackMLExecuteStateMachineType">
+        <opc:Children>
+          <opc:Variable SymbolicName="AvailableStates" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+          </opc:Variable>
+          <opc:Variable SymbolicName="AvailableTransitions" ModellingRule="Mandatory" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0">
+          </opc:Variable>
+          <opc:Variable SymbolicName="CurrentState" ModellingRule="Mandatory" TypeDefinition="ua:FiniteStateVariableType" DataType="ua:LocalizedText">
+            <opc:Children>
+              <opc:Property SymbolicName="Id" ModellingRule="Mandatory" DataType="ua:NodeId">
+              </opc:Property>
+            </opc:Children>
+          </opc:Variable>
+        </opc:Children>
+      </opc:Object>
+      <opc:Method SymbolicName="Reset" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Object SymbolicName="Running" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="RunningToStopping" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Method SymbolicName="Stop" ModellingRule="Optional">
+      </opc:Method>
+      <opc:Object SymbolicName="Stopped" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="StoppedToRunning" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="Stopping" TypeDefinition="ua:StateType">
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+      <opc:Object SymbolicName="StoppingToStopped" TypeDefinition="ua:TransitionType">
+        <opc:Children>
+          <opc:Property SymbolicName="TransitionNumber" ModellingRule="Mandatory" DataType="ua:UInt32">
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
+    </opc:Children>
+  </opc:ObjectType>
+  <!-- TODO: Freistehende Instanz "PackMLObjects" (NodeId ns=1;i=72) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="PackMLObjects" TypeDefinition="ua:FolderType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "http://opcfoundation.org/UA/PackML/" (NodeId ns=1;i=117) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="http___opcfoundation_org_UA_PackML_" TypeDefinition="TODO_CHECK_PART5_ANNEX_A">
+    <opc:Children>
+      <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
+      </opc:Property>
+      <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
+      </opc:Property>
+      <opc:Property SymbolicName="NamespaceUri" DataType="ua:String">
+      </opc:Property>
+      <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
+      </opc:Property>
+      <opc:Property SymbolicName="StaticNodeIdTypes" DataType="ua:IdType" ValueRank="Array" ArrayDimensions="0">
+      </opc:Property>
+      <opc:Property SymbolicName="StaticNumericNodeIdRange" DataType="ua:NumericRange" ValueRank="Array" ArrayDimensions="0">
+      </opc:Property>
+      <opc:Property SymbolicName="StaticStringNodeIdPattern" DataType="ua:String">
+      </opc:Property>
+    </opc:Children>
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default Binary" (NodeId ns=1;i=69) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default Binary" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default XML" (NodeId ns=1;i=70) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default XML" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default Binary" (NodeId ns=1;i=74) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default Binary" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default XML" (NodeId ns=1;i=76) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default XML" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default Binary" (NodeId ns=1;i=77) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default Binary" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default XML" (NodeId ns=1;i=78) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default XML" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default Binary" (NodeId ns=1;i=79) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default Binary" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default XML" (NodeId ns=1;i=80) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default XML" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default Binary" (NodeId ns=1;i=81) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default Binary" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default XML" (NodeId ns=1;i=82) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default XML" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default Binary" (NodeId ns=1;i=83) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default Binary" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "Default XML" (NodeId ns=1;i=84) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Object SymbolicName="Default XML" TypeDefinition="ua:DataTypeSystemType">
+  </opc:Object>-->
+
+  <!-- TODO: Freistehende Instanz "TypeDictionary" (NodeId ns=1;i=195) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Variable SymbolicName="TypeDictionary" TypeDefinition="ua:DataTypeDictionaryType" DataType="ua:ByteString">
+    <opc:Children>
+      <opc:Property SymbolicName="NamespaceUri" DataType="ua:String">
+      </opc:Property>
+      <opc:Variable SymbolicName="PackMLAlarmDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLCountDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLDescriptorDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLIngredientsDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLProductDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLRemoteInterfaceDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+    </opc:Children>
+  </opc:Variable>-->
+
+  <!-- TODO: Freistehende Instanz "TypeDictionary" (NodeId ns=1;i=197) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
+  <opc:Variable SymbolicName="TypeDictionary" TypeDefinition="ua:DataTypeDictionaryType" DataType="ua:ByteString">
+    <opc:Children>
+      <opc:Property SymbolicName="NamespaceUri" DataType="ua:String">
+      </opc:Property>
+      <opc:Variable SymbolicName="PackMLAlarmDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLCountDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLDescriptorDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLIngredientsDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLProductDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+      <opc:Variable SymbolicName="PackMLRemoteInterfaceDataType" TypeDefinition="DataTypeDescriptionType" DataType="ua:String">
+      </opc:Variable>
+    </opc:Children>
+  </opc:Variable>-->
+</opc:ModelDesign>
