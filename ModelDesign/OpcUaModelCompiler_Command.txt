@@ -1,1 +1,1 @@
-Opc.Ua.ModelCompiler compile -version v104 -d2 PackML.ModelDesign.draft.xml,PackML,PackML -c ./PackML.Model.draft.csv -o2 ./validation
+Opc.Ua.ModelCompiler compile -version v104 -d2 PackML.ModelDesign.xml,PackML,PackML -c ./PackML.Model.csv -o2 ./validation
