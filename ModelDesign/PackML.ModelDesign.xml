@@ -66,25 +66,25 @@
   <opc:DataType SymbolicName="PackMLAlarmDataType" BaseType="ua:Structure">
     <opc:Description>PackMLAlarmDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.8.2/#6.8.2.2)</opc:Description>
     <opc:Fields>
-      <opc:Field Name="ID">
+      <opc:Field Name="ID" DataType="ua:Int32">
         <opc:Description>A unique number assigned to each type of alarm, stop or warning.</opc:Description>
       </opc:Field>
-      <opc:Field Name="Value">
+      <opc:Field Name="Value" DataType="ua:Int32">
         <opc:Description>An alarm, stop or warning message number associated to the ID to allow for user specific detail or to break down the Alarm.ID to greater detail</opc:Description>
       </opc:Field>
-      <opc:Field Name="Message">
+      <opc:Field Name="Message" DataType="ua:String">
         <opc:Description>The actual text of the alarm, stop or warning for those machines capable of providing string information</opc:Description>
       </opc:Field>
-      <opc:Field Name="Category">
+      <opc:Field Name="Category" DataType="ua:Int32">
         <opc:Description>A user defined value which indicates what type of alarm, stop or warning has occurred. E.g. electrical, mechanical, process limit, …</opc:Description>
       </opc:Field>
-      <opc:Field Name="DateTime">
+      <opc:Field Name="DateTime" DataType="ua:UtcTime">
         <opc:Description>The date and time that the alarm, stop or warning occurred, in ISO 8601 format (year, month, day, hour, minute, second, msec), as an array of 32 bit integers. Any unused date time elements should be set to zero</opc:Description>
       </opc:Field>
-      <opc:Field Name="AckDateTime">
+      <opc:Field Name="AckDateTime" DataType="ua:UtcTime">
         <opc:Description>The date and time that the alarm, stop or warning has been acknowledged, in ISO 8601 format (year, month, day, hour, minute, second, msec), as an array of 32 bit integers. Any unused date time elements should be set to zero</opc:Description>
       </opc:Field>
-      <opc:Field Name="Trigger">
+      <opc:Field Name="Trigger" DataType="ua:Boolean">
         <opc:Description>This variable is true when the alarm is active</opc:Description>
       </opc:Field>
     </opc:Fields>
@@ -93,19 +93,19 @@
   <opc:DataType SymbolicName="PackMLCountDataType" BaseType="ua:Structure">
     <opc:Description>PackMLCountDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.3)</opc:Description>
     <opc:Fields>
-      <opc:Field Name="ID">
+      <opc:Field Name="ID" DataType="ua:Int32">
         <opc:Description>A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.</opc:Description>
       </opc:Field>
-      <opc:Field Name="Name">
+      <opc:Field Name="Name" DataType="ua:String">
         <opc:Description>A string description of the material.</opc:Description>
       </opc:Field>
-      <opc:Field Name="Unit">
+      <opc:Field Name="Unit" DataType="ua:EUInformation">
         <opc:Description>OPC UA engineering unit information for the count.</opc:Description>
       </opc:Field>
-      <opc:Field Name="Count">
+      <opc:Field Name="Count" DataType="ua:Int32">
         <opc:Description>The amount of consumed (processed or defective) material on the current production job.</opc:Description>
       </opc:Field>
-      <opc:Field Name="AccCount">
+      <opc:Field Name="AccCount" DataType="ua:Int32">
         <opc:Description>The cumulative count value of the material produced (or consumed). This counter gives the user a non-resetting counter that may be used for OEE calculations</opc:Description>
       </opc:Field>
     </opc:Fields>
@@ -114,16 +114,16 @@
   <opc:DataType SymbolicName="PackMLDescriptorDataType" BaseType="ua:Structure">
     <opc:Description>PackMLDescriptorDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.4)</opc:Description>
     <opc:Fields>
-      <opc:Field Name="ID">
+      <opc:Field Name="ID" DataType="ua:Int32">
         <opc:Description>A unique number assigned to the parameter</opc:Description>
       </opc:Field>
-      <opc:Field Name="Name">
+      <opc:Field Name="Name" DataType="ua:String">
         <opc:Description>The name of the parameter</opc:Description>
       </opc:Field>
-      <opc:Field Name="Unit">
+      <opc:Field Name="Unit" DataType="ua:EUInformation">
         <opc:Description>OPC UA engineering unit information</opc:Description>
       </opc:Field>
-      <opc:Field Name="Value">
+      <opc:Field Name="Value" DataType="ua:Float">
         <opc:Description>This is the numeric value of the parameter</opc:Description>
       </opc:Field>
     </opc:Fields>
@@ -132,10 +132,10 @@
   <opc:DataType SymbolicName="PackMLIngredientsDataType" BaseType="ua:Structure">
     <opc:Description>PackMLIngredientsDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.5)</opc:Description>
     <opc:Fields>
-      <opc:Field Name="IngredientID">
+      <opc:Field Name="IngredientID" DataType="ua:Int32">
         <opc:Description>A unique number assigned to the ingredient.</opc:Description>
       </opc:Field>
-      <opc:Field Name="Parameter">
+      <opc:Field Name="Parameter" DataType="PackMLDescriptorDataType">
         <opc:Description>The array of Parameters that correspond to the ingredient</opc:Description>
       </opc:Field>
     </opc:Fields>
@@ -144,13 +144,13 @@
   <opc:DataType SymbolicName="PackMLProductDataType" BaseType="ua:Structure">
     <opc:Description>PackMLProductDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.6)</opc:Description>
     <opc:Fields>
-      <opc:Field Name="ProductID">
+      <opc:Field Name="ProductID" DataType="ua:Int32">
         <opc:Description>A unique number assigned to the product.</opc:Description>
       </opc:Field>
-      <opc:Field Name="ProcessVariables">
+      <opc:Field Name="ProcessVariables" DataType="PackMLDescriptorDataType">
         <opc:Description>The array of Process variables associated with this product</opc:Description>
       </opc:Field>
-      <opc:Field Name="Ingredients">
+      <opc:Field Name="Ingredients" DataType="PackMLIngredientsDataType">
         <opc:Description>The array of ingredients associated with this product.</opc:Description>
       </opc:Field>
     </opc:Fields>
@@ -159,16 +159,16 @@
   <opc:DataType SymbolicName="PackMLRemoteInterfaceDataType" BaseType="ua:Structure">
     <opc:Description>PackMLRemoteInterfaceDataType (Quelle: https://reference.opcfoundation.org/v104/PackML/v101/docs/6.5.7)</opc:Description>
     <opc:Fields>
-      <opc:Field Name="Number">
+      <opc:Field Name="Number" DataType="ua:Int32">
         <opc:Description>This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine.</opc:Description>
       </opc:Field>
-      <opc:Field Name="ControlCmdNumber">
+      <opc:Field Name="ControlCmdNumber" DataType="ua:Int32">
         <opc:Description>A user defined command number associated with coded value from a remote unit. This number is a coded value sent from one node on the network to another.</opc:Description>
       </opc:Field>
-      <opc:Field Name="CmdValue">
+      <opc:Field Name="CmdValue" DataType="ua:Int32">
         <opc:Description>This is the command value associated with the ControlCmdNumber above.</opc:Description>
       </opc:Field>
-      <opc:Field Name="Parameter">
+      <opc:Field Name="Parameter" DataType="PackMLDescriptorDataType">
         <opc:Description>The parameter tags associated to commanded remote interface are typically used for command parameters that are given to the unit machine from remote machines.</opc:Description>
       </opc:Field>
     </opc:Fields>
@@ -751,20 +751,23 @@
       </opc:Object>
     </opc:Children>
   </opc:ObjectType>
-  <!-- TODO: Freistehende Instanz "PackMLObjects" (NodeId ns=1;i=72) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
-  <opc:Object SymbolicName="PackMLObjects" TypeDefinition="ua:FolderType">
-  </opc:Object>-->
 
-  <!-- TODO: Freistehende Instanz "http://opcfoundation.org/UA/PackML/" (NodeId ns=1;i=117) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
-  <opc:Object SymbolicName="http___opcfoundation_org_UA_PackML_" TypeDefinition="TODO_CHECK_PART5_ANNEX_A">
+  <!-- TODO: Freistehende Instanz "PackMLObjects" (NodeId ns=1;i=72) -->
+  <opc:Object SymbolicName="PackMLObjects" TypeDefinition="ua:FolderType">
+  </opc:Object>
+
+  <!-- TODO: Freistehende Instanz "http://opcfoundation.org/UA/PackML/" (NodeId ns=1;i=117) -->
+  <opc:Object SymbolicName="http___opcfoundation_org_UA_PackML_" TypeDefinition="ua:NamespaceMetadataType">
     <opc:Children>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
       </opc:Property>
       <opc:Property SymbolicName="NamespaceUri" DataType="ua:String">
+        <opc:DefaultValue><ua:String>http://opcfoundation.org/UA/PackML/</ua:String></opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
+        <opc:DefaultValue><ua:String>1.01</ua:String></opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="StaticNodeIdTypes" DataType="ua:IdType" ValueRank="Array" ArrayDimensions="0">
       </opc:Property>
@@ -773,7 +776,7 @@
       <opc:Property SymbolicName="StaticStringNodeIdPattern" DataType="ua:String">
       </opc:Property>
     </opc:Children>
-  </opc:Object>-->
+  </opc:Object>
 
   <!-- TODO: Freistehende Instanz "Default Binary" (NodeId ns=1;i=69) - haengt vermutlich an einem Standard-Knoten (z.B. ObjectsFolder) ausserhalb dieses Modells. Manuell verdrahten. 
   <opc:Object SymbolicName="Default Binary" TypeDefinition="ua:DataTypeSystemType">
